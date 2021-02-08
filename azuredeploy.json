@@ -4,11 +4,18 @@
     "apiProfile": "",
     "parameters": {},
     "variables": {
+        "userAssignedIdentityName": "configDeployer",
         "storageAccountName": "[concat('storage', uniqueString(resourceGroup().id))]",
         "storageBlobContainerName": "config"
     },
     "functions": [],
     "resources": [
+        {
+            "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "apiVersion": "2018-11-30",
+            "name": "[variables('userAssignedIdentityName')]",
+            "location": "[resourceGroup().location]"
+        },
         {
             "name": "[variables('storageAccountName')]",
             "type": "Microsoft.Storage/storageAccounts",
