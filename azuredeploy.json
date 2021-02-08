@@ -104,5 +104,11 @@
                 "publicAccess": "Blob"
             }
         }
-    ]
+    ],
+    "outputs": {
+    "fileUri": {
+        "type": "string",
+        "value": "[reference(variables('deploymentScriptName')).outputs.Uri]"
+    }
+}
 }
