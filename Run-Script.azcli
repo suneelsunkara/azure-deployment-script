@@ -1,0 +1,19 @@
+Clear-AzContext
+Connect-AzAccount
+Get-AzSubscription
+Set-AzContext -SubscriptionId {87df609f-383a-42b0-908d-02347b9e525b}
+
+$ResourceGroupName = "learndeploymentscript_exercise_1"
+New-AzResourceGroup -Location southeastasia -Name $ResourceGroupName
+
+$TemplateFile = "azuredeploy.json"
+$Today=Get-Date -Format "MM-dd-yyyy"
+$DeploymentName="deploymentscript-"+"$Today"
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -Name $DeploymentName -TemplateFile $TemplateFile
+
+$FileUri = (Get-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -Name $DeploymentName).Outputs.fileUri.Value
+Invoke-RestMethod $FileUri
+
+Get-AzDeploymentScriptLog -ResourceGroupName $ResourceGroupName -Name CopyConfigScript
+
+Remove-AzResourceGroup -Name $ResourceGroupName
